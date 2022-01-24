@@ -1,0 +1,25 @@
+# Support
+Only supports the requirements asked for in the README.md for messages and services.
+Does not support Enums, Comments, GONames, et al.
+
+# Assumption
+There are no discrepancies (syntax+semantic) in the input `.proto` file.
+
+# Build
+Run `go build` inside `protoc-gen-yaml` directory
+
+# Update PATH
+export PATH=$PATH:$(PATH_TO_protoc-gen-yaml)
+in my case this is
+export PATH=$PATH:~/go/src/github.com/protoc-gen-yaml
+
+# Run protoc yaml plugin inside `protoc-gen-yaml` directory
+mkdir output
+protoc -I test/input test/input/proto/echo.proto --yaml_out=./output
+
+# Check the output
+diff ./output/proto/echo.proto.yaml ./test/output/proto/echo.proto.yaml
+
+# Enhancements
+Concurrently generate message and service methods and synchronize the output update.
+Might change the order of expected output of the example in the test.
