@@ -9,6 +9,16 @@ messages:
   fields:
   - name: value
     number: 1
+- name: echo.v1.Foo.Bar.Xyz
+  fields:
+  - name: first
+    number: 1
+  - name: second
+    number: 2
+- name: echo.v1.Foo.Abc
+  fields:
+  - name: value
+    number: 1
 - name: echo.v1.EchoRequest
   fields:
   - name: value
@@ -22,5 +32,8 @@ services:
   methods:
   - name: Echo
     input_type: echo.v1.EchoRequest
+    output_type: echo.v1.EchoResponse
+  - name: EchoCopy
+    input_type: echo.v1.Foo
     output_type: echo.v1.EchoResponse
 

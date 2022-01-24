@@ -5,6 +5,9 @@ Does not support Enums, Comments, GONames, et al.
 # Assumption
 There are no discrepancies (syntax+semantic) in the input `.proto` file.
 
+# Unzip `protoc-gen-yaml.tar.gz` file inside directory $GOPATH/src/github.com
+in my case this is ~/go/src/github.com
+
 # Build
 Run `go build` inside `protoc-gen-yaml` directory
 
@@ -15,7 +18,9 @@ export PATH=$PATH:~/go/src/github.com/protoc-gen-yaml
 
 # Run protoc yaml plugin inside `protoc-gen-yaml` directory
 mkdir output
-protoc -I test/input test/input/proto/echo.proto --yaml_out=./output
+time protoc -I test/input test/input/proto/echo.proto --yaml_out=./output
+sequential > 0.00s user 0.00s system 81% cpu 0.010 total
+concurrent > 0.00s user 0.00s system 88% cpu 0.009 total (variable)
 
 # Check the output
 diff ./output/proto/echo.proto.yaml ./test/output/proto/echo.proto.yaml
@@ -23,3 +28,10 @@ diff ./output/proto/echo.proto.yaml ./test/output/proto/echo.proto.yaml
 # Enhancements
 Concurrently generate message and service methods and synchronize the output update.
 Might change the order of expected output of the example in the test.
+
+Robust Error Handling based on custom error messages from the protogen package.
+
+# Nested Messages Test Case
+time protoc -I test/input test/input/proto/echo-nested.proto --yaml_out=./output
+sequential > 0.00s user 0.01s system 45% cpu 0.029 total
+concurrent > 0.01s user 0.00s system 73% cpu 0.014 total (variable)
