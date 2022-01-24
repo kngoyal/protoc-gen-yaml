@@ -23,3 +23,8 @@ diff ./output/proto/echo.proto.yaml ./test/output/proto/echo.proto.yaml
 # Enhancements
 Concurrently generate message and service methods and synchronize the output update.
 Might change the order of expected output of the example in the test.
+
+Robust Error Handling based on custom error messages from the protogen package.
+
+# Nested Messages Test Case
+protoc -I test/input test/input/proto/echo-nested.proto --yaml_out=./output

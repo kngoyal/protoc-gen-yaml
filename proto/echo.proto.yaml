@@ -1,0 +1,26 @@
+messages:
+- name: echo.v1.EchoRequest
+  fields:
+  - name: value
+    number: 1
+- name: echo.v1.EchoResponse
+  fields:
+  - name: foo
+    number: 1
+- name: echo.v1.Foo
+  fields:
+  - name: one
+    number: 1
+  - name: two
+    number: 2
+- name: echo.v1.Foo.Bar
+  fields:
+  - name: value
+    number: 1
+services:
+- name: echo.v1.EchoService
+  methods:
+  - name: Echo
+    input_type: echo.v1.EchoRequest
+    output_type: echo.v1.EchoResponse
+

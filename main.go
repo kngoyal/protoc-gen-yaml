@@ -37,11 +37,11 @@ type Services struct {
 
 func main() {
 	protogen.Options{}.Run(func(gen *protogen.Plugin) error {
-		for p, f := range gen.FilesByPath {
+		for path, f := range gen.FilesByPath {
 			if !f.Generate {
 				continue
 			}
-			generateFile(gen, f, p)
+			generateFile(gen, f, path)
 		}
 		return nil
 	})
@@ -51,7 +51,9 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, path string) {
 	filename := path + ".yaml"
 	g := gen.NewGeneratedFile(filename, file.GoImportPath)
 
-	messages := generateMessages(file)
+	messages := Messages{}
+
+	generateMessages(file, &messages)
 	services := generateServices(file)
 
 	out_messages, _ := yaml.Marshal(&messages)
@@ -61,23 +63,26 @@ func generateFile(gen *protogen.Plugin, file *protogen.File, path string) {
 	g.P(string(out))
 }
 
-func generateMessages(file *protogen.File) *Messages {
-	messages := Messages{}
+func generateMessages(file *protogen.File, messages *Messages) {
 	for _, message := range file.Messages {
-
-		desc := message.Desc
-		messages.Messages = append(messages.Messages, generateMessage(desc))
-
-		n := desc.Messages().Len()
-		for i := 0; i < n; i++ {
-			desc = desc.Messages().Get(i)
-			messages.Messages = append(messages.Messages, generateMessage(desc))
-		}
+		generateMessageFromDesc(message.Desc, messages)
 	}
-	return &messages
 }
 
-func generateMessage(desc protoreflect.MessageDescriptor) *Message {
+func generateMessageFromDesc(desc protoreflect.MessageDescriptor, messages *Messages) {
+	generateMessage(desc, messages)
+	generateNestedMessages(desc, messages)
+}
+
+func generateNestedMessages(desc protoreflect.MessageDescriptor, messages *Messages) {
+	n := desc.Messages().Len()
+	for i := 0; i < n; i++ {
+		msgDesc := desc.Messages().Get(i)
+		generateMessageFromDesc(msgDesc, messages)
+	}
+}
+
+func generateMessage(desc protoreflect.MessageDescriptor, messages *Messages) {
 	var fields []*Field
 	n := desc.Fields().Len()
 
@@ -88,10 +93,10 @@ func generateMessage(desc protoreflect.MessageDescriptor) *Message {
 			Number: int(field.Number()),
 		})
 	}
-	return &Message{
+	messages.Messages = append(messages.Messages, &Message{
 		Name:   string(desc.FullName()),
 		Fields: fields,
-	}
+	})
 }
 
 func generateServices(file *protogen.File) *Services {

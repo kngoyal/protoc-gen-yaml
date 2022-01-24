@@ -1,0 +1,32 @@
+syntax = "proto3";
+option go_package = "./";
+
+package echo.v1;
+
+message EchoRequest {
+  string value = 1;
+}
+
+message EchoResponse {
+  Foo foo = 1;
+}
+
+message Foo {
+  message Abc {
+    int32 value = 1;
+  }
+  message Bar {
+    string value = 1;
+    message Xyz {
+      string second = 2;
+      int32 first = 1;
+    }
+  }
+  string two = 2;
+  string one = 1;
+}
+
+service EchoService {
+  rpc Echo(EchoRequest) returns (EchoResponse);
+  rpc EchoCopy(Foo) returns (EchoResponse);
+}
