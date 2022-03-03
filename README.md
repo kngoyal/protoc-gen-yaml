@@ -1,9 +1,5 @@
 ## Overview
-Create a [Protocol Buffers][1] (Protobuf)
-plugin, which is executed with the `protoc` compiler. In this
-exercise, we expect you to use `v3.13.0`, so please install
-it from the the [releases][2].
-
+Create a Protocol Buffers plugin, which is executed with the `protoc` compiler.
 
 ## What is a plugin, and how do I write one?
 
