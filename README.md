@@ -1,21 +1,9 @@
-# Interview Assignment
-
 ## Overview
-
-You assignment is to create a [Protocol Buffers][1] (Protobuf)
+Create a [Protocol Buffers][1] (Protobuf)
 plugin, which is executed with the `protoc` compiler. In this
 exercise, we expect you to use `v3.13.0`, so please install
 it from the the [releases][2].
 
-We expect this assignment to take between 2-3 hours to complete.
-A significant portion of this assignment is to test your ability
-to research and learn how to interact with a foreign tool. The
-implementation itself is not intended to be overly complex -
-the real challenge is getting a program that can run correctly with
-`protoc`.
-
-  [1]: https://developers.google.com/protocol-buffers
-  [2]: https://github.com/protocolbuffers/protobuf/releases/tag/v3.13.0
 
 ## What is a plugin, and how do I write one?
 
