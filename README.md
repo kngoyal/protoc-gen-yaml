@@ -139,12 +139,3 @@ You can verify if you've implemented the correct solution with `diff`:
 $ protoc -I test/input test/input/proto/echo.proto --yaml_out=./output
 $ diff ./output/proto/echo.proto.yaml ./test/output/proto/echo.proto.yaml
 ```
-
-> Note that the ouptut is *sanitized*, such that any `.` prefixes
-  are trimmed in the relevant places. A proper solution will need
-  to handle these cases, so pay special attention!
-
-## Submitting
-
-Send a tar ball containing your solution and, optionally, any additional test cases you've created.
-We should be able to build the plugin with `go build`.
